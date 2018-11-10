@@ -1,5 +1,5 @@
 // 这里是服务端的入口文件
-import createApp from './create-app'
+import createApp from './create-app' // 创建一个app之后我们就可以拿到里边的信息
 // const appString = await renderer.renderToString(context)
 // 这个context就等于server-render.js里边传入的context-这个context可以赋很多的值
 // 我们在进行vue的渲染过程当中vue也会给他赋很多的值
@@ -22,6 +22,8 @@ export default context => {
       if (!matchedCompoents.length) {
         return reject(new Error('没有组件匹配'))
       }
+      // 使用meta插件之后我们可以在这里获取meta了
+      context.meta = app.$meta()
       resolve(app)
     })
   })

@@ -55,6 +55,7 @@ const handleSSR = async (ctx) => {
     // 所以这里我们就需要用到axios去发送一个请求然后获取vue-ssr-client-manifest.json文件
     // 在webpack.config.base中如果配置了publicPath这里一定更要记得添加
     const clientBundleJson = await Axios.get('http://127.0.0.1:8000/public/vue-ssr-client-manifest.json')
+    // 我们加载的这个json，里边包含了我们通过webpack devServer打包出来的所有静态文件的路径这个路径是和我们配置的publicPath有关联的
     // 获取json里边的内容
     // console.log('ccccccc')
     // console.log(clientBundleJson.data)
@@ -62,10 +63,6 @@ const handleSSR = async (ctx) => {
     const clientManifest = clientBundleJson.data
     // 通过VueServerRender提供方法帮我们生成一个我们可以直接调用的renderer的方法function
     // renderer是一个functoin，然后通过renderer创建一个appSting
-    console.log('ggggggggggggg')
-    // console.log(bundle)
-    console.log(clientManifest)
-    console.log('fffffffffffff')
     const renderer = VueServerRender.createBundleRenderer(
       bundle, {
         // VueServerRender是可以指定一个template，但是这个template需要按VueServerRender官方提供的模版形式指定，它会把我们指定的一些内容插入进去，
@@ -75,13 +72,6 @@ const handleSSR = async (ctx) => {
         clientManifest
       }
     )
-    console.log('ccccccccccccccccc')
-    console.log(ctx)
-    console.log('//////')
-    console.log(renderer)
-    console.log('//////')
-    console.log(template)
-    console.log('ddddddddddddddddd')
     await ServerRender(ctx, renderer, template)
   }
 }

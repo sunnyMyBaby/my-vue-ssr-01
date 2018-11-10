@@ -8,21 +8,23 @@ module.exports = async (ctx, renderer, template) => {
   // context服务端渲染的时候传入进去的，传入vue-server-render里边去的，
   // vue-server-render渲染完成后会插入一堆的属性，方便我们渲染html，里边包括客户端js的路径css路径
   // 如果客户端没有vue-style-loader如果没有把css单独打包出来，他会在里边生成一个style标签里边会有当前路由下的需要用的样式的内容我们可以直接把他渲染到html上面
-  const context = { url: ctx.path }
+  const context = { url: ctx.path } // /app /login /search
+  console.log('============')
+  console.log(context)
   try {
     // renderToString 会返回一个promise所以可以用await
     const appString = await renderer.renderToString(context)
+    const {
+      title
+    } = context.meta.inject()
     // 渲染html
-    console.log('ssssssssssssssss')
-    console.log(context.renderStyles())
-    // console.log(context.renderScripts())
-    console.log('cccccccccccccccc')
     const html = ejs.render(
       template, {
         // 这几个参数是传到模版ejs里边的，所以需要我们在ejs模版里边插入
         appString,
         style: context.renderStyles(), // 获取客户端的css
-        scripts: context.renderScripts() // 获取客户端的js
+        scripts: context.renderScripts(), // 获取客户端的js
+        title: title.text()
       }
     )
     ctx.body = html

@@ -3,7 +3,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
-
+// 这个插件是在服务端里边处理路由头部信息的，因为在客户端里边我们可以用vue路由的meta属性做的，但是服务端不行
+// 然后使用了之后我们在客户端路由里边写的metaInfo就可以获取到
+import Meta from 'vue-meta'
 import App from './app.vue'
 import createStore from './store/store'
 import CreateRouter from './config/router'
@@ -11,6 +13,7 @@ import CreateRouter from './config/router'
 import './styles/global.styl'
 Vue.use(VueRouter)
 Vue.use(Vuex)
+Vue.use(Meta)
 export default() => {
   const router = CreateRouter()
   const store = createStore()

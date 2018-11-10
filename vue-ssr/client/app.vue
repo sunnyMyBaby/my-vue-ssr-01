@@ -32,6 +32,9 @@ import Footer from './layout/footer.jsx'
 //   mapMutations
 // } from 'vuex'
 export default {
+  metaInfo: {
+    title: '杨广--下级会覆盖上级的'
+  },
   components: {
     Header,
     Footer

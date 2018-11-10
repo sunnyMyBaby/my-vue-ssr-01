@@ -2,11 +2,12 @@
 // 因为我们要做服务端渲染所以我们要起一个node server因为只有node server才能做
 const Koa = require('koa')
 const pageRouter = require('./routers/dev-ssr')
+const path = require('path')
+// koa-send 处理静态文件
+const send = require('koa-send')
 // 生成一个app
-const app = new Koa()
-
-const isDev = process.env.NODE_ENV === 'development'
-console.log('-------')
+let app = new Koa()
+let isDev = process.env.NODE_ENV === 'development'
 // 记录所有的请求
 app.use(async (ctx, next) => {
   try {
@@ -22,6 +23,16 @@ app.use(async (ctx, next) => {
     } else {
       ctx.body = '请重新尝试'
     }
+  }
+})
+console.log('aaaaa')
+app.use(async (ctx, next) => {
+  // 如果请求过来的是favicon.ico我们会获取相应目录下的favicon.ico文件\
+  // console.log(path.join(__dirname)) 当前文件所处路径 /Users/yangguang02/Desktop/sduty/vue/my-vue-ssr-01/vue-ssr/server
+  if (ctx.path === '/favicon.ico') {
+    await send(ctx, ctx.path, { root: path.join(__dirname, '../') })
+  } else {
+    await next()
   }
 })
 // allowedMethods处理的业务是当所有路由中间件执行完成之后,若ctx.status为空或者404的时候,丰富response对象的header头.

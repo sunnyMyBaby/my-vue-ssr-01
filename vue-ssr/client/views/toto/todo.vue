@@ -26,6 +26,9 @@
   import Tabs from './tabs.vue'
   let id = 0
 export default {
+    metaInfo: {
+      title: 'meta下级会覆盖上级的'
+    },
     beforeRouteEnter (to, from, next) {
       // 跳转进入该组件之前这里拿不到htis的，但是我们又需要在这里拿到一些数据然后塞到组件里我们酒需要在next里边做了
       console.log(this + '=======')

@@ -7,7 +7,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const baseConfig = require('./webpack.config.base')
 // webpack4 server-ssr使用mini-css-extract-plugin会报错document is not defined
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+// const MiniCssExtraccltPlugin = require('mini-css-extract-plugin')
 // webpack4 server-ssr中我们还得使用extract-text-webpack-plugin的4.x版本，否则回报报错document is not defined，原因未知
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')

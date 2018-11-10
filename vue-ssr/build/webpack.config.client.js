@@ -120,7 +120,8 @@ if (isDev) {
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/index.js'),
+      // app: path.join(__dirname, '../client/index.js'),
+      app: path.join(__dirname, '../client/client-entry.js'),
       // 配置单独打包的模块如vue，jquery，vuex，vue-router等
       vendor: ['vue']
     },
