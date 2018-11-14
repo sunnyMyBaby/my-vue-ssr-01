@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-   <div id="cover"></div>
+   <div id="cover">aaa</div>
    <Header></Header>
    <!-- <Todo></Todo> -->
    <!-- <router-link to="/app">app124</router-link>
@@ -10,11 +10,13 @@
     <router-view />
   </transition>
    <Footer></Footer>
+   <button @click="add"></button>
    <!-- {{counter}}——{{firsteName}}——{{AModules}}——{{textB}}——{{textPlus}}——{{dynamicModulesState}} -->
    <!-- <transition name="fade">
     命名router-view
     <router-view name="a"/>
    </transition> -->
+   <!-- <notification content="自定义全局组件"></notification> -->
   </div>
 </template>
 
@@ -45,7 +47,16 @@ export default {
 
     }
   },
+  methods: {
+    add () {
+      this.$notify({
+        content: 'aa',
+        close: 'a'
+      })
+    }
+  },
   mounted () {
+
     // console.log(this.$store)
     // let i = 0
     // // this.$store.state.count = 3

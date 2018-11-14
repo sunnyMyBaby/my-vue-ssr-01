@@ -1,4 +1,4 @@
-// 服务端的渲染里边我们需要client做一些配合
+// 服务端的渲染里边我们需要client做一些配合，在webpack.config.client.js文件会被作为入口文件
 // 客户端入口文件
 // client下面的入口是index.js但是并没有依赖于create-app
 import createApp from './create-app'

@@ -1,4 +1,4 @@
-import '../styles/footer.styl'
+import '../assets/styles/footer.styl'
 // import className from '../styles/footer.styl'
 export default{
   data () {

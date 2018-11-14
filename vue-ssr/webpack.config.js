@@ -12,7 +12,7 @@ const config = {
   entry: path.join(__dirname, 'src/index.js'),
   output: {
     filename: 'bundle.[hash:8].js', // 开发环境不能使用chunk hash，会报错
-    path: path.join(__dirname, 'dist')
+    path: path.join(__dirname, 'public')
   },
   module: {
     rules: [

@@ -6,12 +6,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:client": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js --mode production",
-    "build": "npm run clean && npm run build:client",
+    "build:server": "cross-env NODE_ENV=production webpack --config build/webpack.config.server.js --mode production",
+    "build": "npm run clean && npm run build:client && npm run build:server",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js --mode development",
     "dev:server": "cross-env NODE_ENV=development node server/server.js",
     "dev:cs": "nodemon server/server.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:cs\"",
-    "clean": "rimraf dist",
+    "start": "cross-env NODE_ENV=production node server/server.js",
+    "clean": "rimraf public && rimraf server-build",
     "lint": "eslint --ext .js --ext .jsx --ext .vue client/",
     "lint-fix": "eslint --fix --ext .js --ext .jsx --ext .vue client/",
     "precommit": "npm run lint-fix"

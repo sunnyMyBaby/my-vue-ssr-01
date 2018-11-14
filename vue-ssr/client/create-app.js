@@ -10,10 +10,13 @@ import App from './app.vue'
 import createStore from './store/store'
 import CreateRouter from './config/router'
 
-import './styles/global.styl'
+import './assets/styles/global.styl'
+// 把组件定义在全局里边
+import Notification from './component/natification'
 Vue.use(VueRouter)
 Vue.use(Vuex)
 Vue.use(Meta)
+Vue.use(Notification)
 export default() => {
   const router = CreateRouter()
   const store = createStore()

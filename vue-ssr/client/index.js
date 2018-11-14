@@ -9,7 +9,6 @@ require('es6-promise').polyfill()
 require('es6-promise/auto')
 // const root = document.createElement('div')
 Vue.use(VueRouter)
-console.log(CreateRouter)
 const router = CreateRouter()
 // zai这里创建的store所以需要在这里
 Vue.use(Vuex)

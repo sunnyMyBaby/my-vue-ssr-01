@@ -54,24 +54,33 @@ const handleSSR = async (ctx) => {
     // 但是这是两个进程我们没法办法在两个进程里边通过任何代码获取这个webpack.dev.server打包的js文件，
     // 所以这里我们就需要用到axios去发送一个请求然后获取vue-ssr-client-manifest.json文件
     // 在webpack.config.base中如果配置了publicPath这里一定更要记得添加
+    // 这个文件包含了客户端打包后的信息
     const clientBundleJson = await Axios.get('http://127.0.0.1:8000/public/vue-ssr-client-manifest.json')
     // 我们加载的这个json，里边包含了我们通过webpack devServer打包出来的所有静态文件的路径这个路径是和我们配置的publicPath有关联的
     // 获取json里边的内容
-    // console.log('ccccccc')
-    // console.log(clientBundleJson.data)
-    // console.log('ccccccc')
-    const clientManifest = clientBundleJson.data
+    const clientManifest = clientBundleJson.data // 这里之所以有data，是因为我们是通过发送http请求获取的，内容保存在data，里边
     // 通过VueServerRender提供方法帮我们生成一个我们可以直接调用的renderer的方法function
     // renderer是一个functoin，然后通过renderer创建一个appSting
+    // 这里实际上就是解析我们读取到的bundle文件，以便获取我们需要的信息，如js，css，dom等
+    // { renderToString: [Function: renderToString],
+    //   renderToStream: [Function: renderToStream] }
+    console.log('/////////')
+    console.log(clientManifest)
     const renderer = VueServerRender.createBundleRenderer(
       bundle, {
         // VueServerRender是可以指定一个template，但是这个template需要按VueServerRender官方提供的模版形式指定，它会把我们指定的一些内容插入进去，
         //  但是限制很大，导致有些功能没法做，所以我们不需要了，我们只需要把我们的app string渲染出来就可以了，然后自己处理余下内容
         inject: false,
         // 这样就会生成一个带script标签的js文件引用的字符串，然后我们可以把他直接填到ejs里边
+        // 在使用 clientManifest 时，自动注入「资源链接(asset links)和资源预加载提示(resource hints)」；
+        // bundle是服务端打包后的文件所以并没有相关的文件图片等依赖信息，我们需要借助于客户端打包的manifest.json
+        // 来获取相应的依赖关系
+        // 使用 clientManifest 进行资源注入：自动推断出最佳的预加载(preload)和预取(prefetch)指令，以及初始渲染所需的代码分割 chunk。
+        // 此对象包含了 webpack 整个构建过程的信息，从而可以让 bundle renderer 自动推导需要在 HTML 模板中注入的内容
         clientManifest
       }
     )
+    // 请求的路由ctx
     await ServerRender(ctx, renderer, template)
   }
 }

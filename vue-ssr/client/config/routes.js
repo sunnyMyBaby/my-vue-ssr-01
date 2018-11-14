@@ -30,7 +30,6 @@ export default [
       description: 'app组件'
     },
     beforeEnter (to, from, next) {
-      console.log('----------')
       next()
     }
   },

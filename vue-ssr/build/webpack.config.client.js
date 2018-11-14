@@ -32,6 +32,9 @@ const devServer = {
     index: '/public/index.html'
     // index: '/index.html'
   },
+  // 解决热重载不生效问题，因为我们在配置是publick是127.0.0.1访问的但是我们经常用locahost访问
+  // 所以就跨域了，因为我们时webpack.dev.server，所以在这里允许跨域是没有问题的，只会在存在于开发环境
+  headers: { 'Access-Control-Allow-Origin': '*' },
   hot: true // 热更新-会刷新页面
 }
 let config
@@ -116,7 +119,6 @@ if (isDev) {
       new VueClientPlugin()
     ]
   })
-  console.log('aaaaaaaaaaa')
 } else {
   config = merge(baseConfig, {
     entry: {
@@ -127,7 +129,10 @@ if (isDev) {
     },
     output: {
       // .vue文件里边的css是没有打包到我们配置的这个css文件里边的，这是vue的设定，在vue-loader中根据每个组件的样式只有在组件显示的时候才会把他的样式加载页面上
-      filename: '[name].[chunkhash:8].js'
+      filename: '[name].[chunkhash:8].js',
+      // 生产环境的时候我们打包的时候使用的路径还是base.js里边的http://0.0.0.0:8000/public/，这就导致我们启动
+      // npm run start 的时候并没有启动npm run dve:client然后通过http://0.0.0.0:8000/public/是访问不到图片，css，js路径的
+      publicPath: '/public/'// 使用绝对路径
     },
     plugins: [
       // vue 15.x之后vue-loader需要配合一个webpack的插件才能用
